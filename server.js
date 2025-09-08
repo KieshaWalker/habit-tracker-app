@@ -15,6 +15,8 @@ app.set('views', path.join(__dirname, 'views'));
 const userRoutes = require('./routes/userRoutes.js');
 const habitRoutes = require('./routes/habitRoutes.js');
 const logRoutes = require('./routes/logRoutes.js');
+const isSignedIn = require('./middleware/isSignedIn.js');
+const passUserToView = require('./middleware/passUserToView.js');
 
 
 mongoose.connect(process.env.MONGODB_URI);
@@ -50,6 +52,8 @@ app.use('/users', userRoutes);
 app.use('/habits', habitRoutes);
 app.use('/logs', logRoutes);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(isSignedIn);
+app.use(passUserToView);
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
