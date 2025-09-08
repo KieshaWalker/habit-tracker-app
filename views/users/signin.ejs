@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignIn</title>
+    <link rel="stylesheet" href="/signing.css">
+</head>
+<body>
+    <h1>Sign In</h1>
+    <form action="/users/signin" method="POST">
+        <div>
+            <label for="text">Username:</label>
+            <input type="text" id="text" name="text" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Sign In</button>
+    </form>
+</body>
+</html>
