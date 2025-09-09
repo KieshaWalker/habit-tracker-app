@@ -9,14 +9,14 @@ const session = require('express-session');
 const path= require('path')
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
+const isSignedIn = require('./middleware/isSignedIn.js');
+const passUserToView = require('./middleware/passUserToView.js');
 
 
 const userRoutes = require('./routes/userRoutes.js');
 const habitRoutes = require('./routes/habitRoutes.js');
 const logRoutes = require('./routes/logRoutes.js');
-const isSignedIn = require('./middleware/isSignedIn.js');
-const passUserToView = require('./middleware/passUserToView.js');
+
 
 
 mongoose.connect(process.env.MONGODB_URI);
@@ -39,21 +39,19 @@ app.use(
     saveUninitialized: true,
   })
 );
-
-
-
+app.use(passUserToView);
 app.get('/', (req, res) => {
   console.log('landing')
-  res.render("index")
+  res.render("index.ejs")
 });
 
 
 app.use('/users', userRoutes);
+app.use(isSignedIn);
 app.use('/habits', habitRoutes);
 app.use('/logs', logRoutes);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(isSignedIn);
-app.use(passUserToView);
+//app.use('/users', userRoutes);
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
