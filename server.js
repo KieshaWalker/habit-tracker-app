@@ -39,6 +39,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(passUserToView);
 app.get('/', (req, res) => {
   console.log('landing')
@@ -50,7 +51,6 @@ app.use('/users', userRoutes);
 app.use(isSignedIn);
 app.use('/habits', habitRoutes);
 app.use('/logs', logRoutes);
-app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/users', userRoutes);
 
 app.listen(port, () => {

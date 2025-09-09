@@ -59,8 +59,9 @@ const loggedIn = async (req, res) => {
       req.body.password,
       userInDatabase.password
     );
+
     if (!validPassword) {
-      return res.send('Login failed. Please try again.');
+      return res.send('Invalid password. please try again.');
     }
   
     // There is a user AND they had the correct password. Time to make a session!
@@ -69,10 +70,11 @@ const loggedIn = async (req, res) => {
     req.session.user = {
       username: userInDatabase.username,
       _id: userInDatabase._id
-    };
-  
-res.render('users/homepage.ejs')  } 
-catch (error) {
+    }
+
+res.render('users/homepage.ejs', { username: req.body.username });
+
+  } catch (error) {
     console.log(error);
     res.redirect('/');
   }

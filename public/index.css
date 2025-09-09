@@ -1,3 +1,14 @@
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        font-size: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100vh;
+    }   
+
 h1, p {
-text-align: center;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
