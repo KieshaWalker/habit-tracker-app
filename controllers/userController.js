@@ -72,7 +72,7 @@ const loggedIn = async (req, res) => {
       _id: userInDatabase._id
     }
 
-res.render('users/homepage.ejs', { username: req.body.username });
+res.render('users/homepage.ejs', { username: userInDatabase.username });
 
   } catch (error) {
     console.log(error);
