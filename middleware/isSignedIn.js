@@ -1,5 +1,5 @@
 const isSignedIn = (req, res, next) => {
-    if (req.session.userId) {
+    if (req.session && req.session.user) {
         console.log('User is signed in:', req.session.userId);
         next();
     } else {

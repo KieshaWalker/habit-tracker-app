@@ -51,7 +51,16 @@ app.use('/users', userRoutes);
 app.use(isSignedIn);
 app.use('/habits', habitRoutes);
 app.use('/logs', logRoutes);
-//app.use('/users', userRoutes);
+app.use('/users', userRoutes);
+
+
+
+
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);

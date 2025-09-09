@@ -1,8 +1,8 @@
 <nav>
-  <% if(username) { %>
-
-  <a href="/users/homepage/<%= username %>/habits">Your Habits</a>
+  <% if(user && user.username) { %>
+  <a href="/users/homepage/<%= user.username %>/habits">Your Habits</a>
   <a href="/users">Sign Out</a>
+  <a href="/habits">Add a Habit</a>
 <% } else { %>
   <a href="/users/login">Sign In</a>
   <a href="/users/sign-up">Sign Up</a>
