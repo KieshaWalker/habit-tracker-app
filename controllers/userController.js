@@ -2,14 +2,12 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
-const today = new Date();
-const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+// Removed static day bounds; will fetch all habits instead of only those created today.
 
 
 const User = require('../models/User');
 const Habit = require('../models/Habit');
-
+ const { isHabitDue } = require('../utils/dateHelpers');
 const login = (req, res) => {
     console.log('Rendering login page');
     res.render('users/signin.ejs');
@@ -72,8 +70,8 @@ const loggedIn = async (req, res) => {
     // Avoid storing the password, even in hashed format, in the session
     // If there is other data you want to save to `req.session.user`, do so here!
     req.session.user = { username: userInDatabase.username, _id: userInDatabase._id };
-    const habits = await Habit.find({ user: userInDatabase._id, archived: false, createdAt: { $gte: startOfDay, $lt: endOfDay } });// had to go back and add this to make it accessible to the homepage
-    return res.render('users/homepage.ejs', { user: req.session.user, habits, });
+  const habits = await Habit.find({ user: userInDatabase._id, archived: false }).lean();
+  return res.render('users/homepage.ejs', { user: req.session.user, habits });
 
   } catch (error) {
     console.log(error);

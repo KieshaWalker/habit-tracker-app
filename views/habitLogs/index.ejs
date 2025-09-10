@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Habit Logs</title>
+		<link rel="stylesheet" href="/homepage.css" />
+	</head>
+	<body>
+		<%- include('../partials/_navbar.ejs') %>
+		<h1>Logs for: <%= habit.title %></h1>
+		<p><a href="/habits">Back to Habits</a> | <a href="/logs/<%= habit._id %>/new">Add Manual Log</a></p>
+
+		<% if (logs && logs.length) { %>
+			<table border="1" cellpadding="6" cellspacing="0">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				<% logs.forEach(l => { %>
+					<tr>
+						<td><%= new Date(l.date).toLocaleString() %></td>
+						<td><%= l.status %></td>
+						<td>
+							<form action="/logs/<%= habit._id %>/<%= l._id %>?_method=DELETE" method="POST" style="display:inline;">
+								<button type="submit">Delete</button>
+							</form>
+						</td>
+					</tr>
+				<% }) %>
+				</tbody>
+			</table>
+		<% } else { %>
+			<p>No log entries yet.</p>
+		<% } %>
+
+	</body>
+</html>

@@ -1,14 +1,8 @@
 const express = require('express');
 const router = express.Router();
-
-
-const today = new Date();
-const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-
-
 const User = require('../models/User');
 const Habit = require('../models/Habit');
+const { isHabitDue } = require('../utils/dateHelpers');
 
 const showAddHabit = async (req, res) => {
     const user = req.session.user;
@@ -61,31 +55,10 @@ const completeHabit = async (req, res) => {
         habit.habitLog.push({ date: new Date(), status: 'completed' });
         await habit.save();
 
-        const habits = await Habit.find({ user: req.session.user._id }).lean();
-
-        const now = new Date();
-        const filteredHabits = habits.filter(habit => {
-            const lastComplete = habit.habitLog
-                .filter(log => log.status === 'completed')
-                .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-
-            if (!lastComplete) return true;
-
-            switch (habit.frequency) {
-                case 'daily':
-                    return lastComplete.date.toString() !== now.toDateString();
-                case 'weekly':
-                    const weekStart = new Date(now);
-                    weekStart.setDate(weekStart.getDate() - weekStart.getDay());
-                    return new Date(lastComplete.date) < weekStart;
-                case 'monthly':
-                    return new Date(lastComplete.date) < new Date(now.getFullYear(), now.getMonth(), 1);
-                default:
-                    return true;
-            }
-        });
-
-        res.render('users/homepage.ejs', { user: req.session.user, habits: filteredHabits });
+    const habits = await Habit.find({ user: req.session.user._id }).lean();
+    const now = new Date();
+    const dueHabits = habits.filter(h => isHabitDue(h, now));
+    res.render('users/homepage.ejs', { user: req.session.user, habits: dueHabits });
 
     } catch (error) {
         console.error('Error completing habit:', error);

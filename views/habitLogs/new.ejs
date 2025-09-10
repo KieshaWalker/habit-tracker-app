@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>New Log Entry</title>
+		<link rel="stylesheet" href="/homepage.css" />
+	</head>
+	<body>
+		<%- include('../partials/_navbar.ejs') %>
+		<h1>Add Log for <%= habit.title %></h1>
+		<form action="/logs/<%= habit._id %>" method="POST">
+			<label>
+				<input type="radio" name="status" value="completed" checked /> Completed
+			</label>
+			<label>
+				<input type="radio" name="status" value="missed" /> Missed
+			</label>
+			<button type="submit">Save Log</button>
+		</form>
+		<p><a href="/logs/<%= habit._id %>">Back to Logs</a></p>
+	</body>
+</html>

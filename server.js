@@ -16,8 +16,8 @@ const passUserToView = require('./middleware/passUserToView.js');
 const userRoutes = require('./routes/userRoutes.js');
 const habitRoutes = require('./routes/habitRoutes.js');
 const logRoutes = require('./routes/logRoutes.js');
-
-
+ const { isHabitDue } = require('./utils/dateHelpers');
+const Habit = require('./models/Habit');
 
 mongoose.connect(process.env.MONGODB_URI);
 const port = process.env.PORT ? process.env.PORT : '3000';
@@ -49,14 +49,11 @@ app.get('/', async (req, res) => {
       return res.render('index.ejs'); // landing page for non-logged-in users
     }
 
-    const habits = await Habit.find({ user: req.session.user._id });
-    res.render('users/homepage.ejs', {
-      user: req.session.user,
-      habits
-    });
+  const habits = await Habit.find({ user: req.session.user._id }).lean();
+  res.render('users/homepage.ejs', { user: req.session.user, habits });
   } catch (error) {
     console.error(error);
-    res.redirect('/login');
+  res.redirect('/users/login');
   }
 });
 
@@ -67,14 +64,7 @@ app.use(isSignedIn);
 app.use('/habits', habitRoutes);
 
 app.use('/logs', logRoutes);
-app.use('/users', userRoutes);
-
-
-
-
-
-
-
+// Removed duplicate /users mount (already mounted above)
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
