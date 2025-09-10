@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
-// Removed static day bounds; will fetch all habits instead of only those created today.
 
 
 const User = require('../models/User');

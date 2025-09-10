@@ -43,6 +43,27 @@
             </form>
           <% } %>
           <a href="/logs/<%= habit._id %>">View Logs</a>
+
+          
+          <% /* Progress Calculation: distinct completed days vs duration */
+             const completedDaysSet = new Set((habit.habitLog||[])
+               .filter(l => l.status === 'completed')
+               .map(l => new Date(l.date).toDateString()));
+             const completedDays = completedDaysSet.size;
+             const totalDays = habit.duration || 1; // avoid divide by zero
+             const pctRaw = (completedDays / totalDays) * 100;
+             const pct = pctRaw > 100 ? 100 : Math.round(pctRaw);
+          %>
+          <div class="progress-wrapper" aria-label="Progress for <%= habit.title %>" role="group">
+            <div class="progress-label">
+              <span>Progress</span>
+              <span><%= completedDays %>/<%= totalDays %> days</span>
+            </div>
+            <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= pct %>">
+              <div class="progress-bar" <%= `style="width:${pct}%"` %>></div>
+            </div>
+            <div class="progress-pct"><%= pct %>%</div>
+          </div>
         </li>
       <% }) %>
     </ul>

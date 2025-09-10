@@ -8,7 +8,7 @@
 	<body>
 		<%- include('../partials/_navbar.ejs') %>
 		<h1>Logs for: <%= habit.title %></h1>
-		<p><a href="/habits">Back to Habits</a> | <a href="/logs/<%= habit._id %>/new">Add Manual Log</a></p>
+		<p><a href="/">Back to Habits</a> | <a href="/logs/<%= habit._id %>/new">Add Manual Log</a></p>
 
 		<% if (logs && logs.length) { %>
 			<table border="1" cellpadding="6" cellspacing="0">

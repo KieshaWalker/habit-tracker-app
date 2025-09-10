@@ -64,7 +64,6 @@ app.use(isSignedIn);
 app.use('/habits', habitRoutes);
 
 app.use('/logs', logRoutes);
-// Removed duplicate /users mount (already mounted above)
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);

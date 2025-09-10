@@ -70,6 +70,23 @@ const deleteLog = async (req, res) => {
 	}
 };
 
+
+const showAllCurrentHabitsInProgress = async (req, res) => {
+	try {
+		const user = req.session.user;
+		if (!user) return res.status(401).send('Not authorized');
+		const habits = await Habit.find({ user: user._id }).lean();
+		res.render('habits/index.ejs', { user, habits });
+	} catch (err) {
+		console.error('Error showing current habits:', err);
+		res.status(500).send('Internal Server Error');
+	}
+};
+
+
+
+
+
 module.exports = {
 	listLogs,
 	newLogForm,
