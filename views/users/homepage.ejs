@@ -16,11 +16,17 @@
 <p1>Your personalized habit tracking dashboard is ready.</p1>
 
 <h2>Today's Habits:</h2>
-<ul>
-    <li>Habit 1</li>
-    <li>Habit 2</li>
-    <li>Habit 3</li>
-</ul>
+    <div id="habit-list">
+      <% if (habits && habits.length > 0) { %>
+      <ul>
+        <% habits.forEach(habit => { %>
+          <li><%= habit.title %> - <%= habit.description %></li>
+        <% }); %>
+      </ul>
+      <% } else { %>
+        <p>No habits found for today. Let's create some!</p>
+      <% } %>
+    </div>
 
 <p2>Keep up the great work!</p2>
 

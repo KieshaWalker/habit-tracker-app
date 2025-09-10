@@ -14,7 +14,7 @@ router.get('/', habitController.showAddHabit);
 
 
 router.post('/', habitController.createHabit);
-
+router.post('/:id/complete', habitController.completeHabit);
 
 
 

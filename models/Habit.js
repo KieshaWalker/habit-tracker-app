@@ -36,6 +36,11 @@ const habitSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Please add a duration'],
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Please add a user']
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -49,5 +54,5 @@ const habitSchema = new mongoose.Schema({
 
 
 
-const Habit = mongoose.model('Habits', habitSchema);
+const Habit = mongoose.model('Habit', habitSchema);
 module.exports = Habit;

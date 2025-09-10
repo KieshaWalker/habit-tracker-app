@@ -4,10 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/habit.css">
 </head>
 <body>
-    <%- include('../partials/_navbar.ejs') %>
+    <%- include('../partials/_navbar2.ejs') %>
 
-    
+<form action="/habits" method="POST">
+    <input type="text" name="title" placeholder="Enter habit title" required>
+    <textarea name="description" placeholder="Enter habit description" required></textarea>
+    <select name="frequency" required>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+        <option value="custom">Custom</option>
+    </select>
+    <input type="number" name="targetCount" placeholder="Enter target count" min="1" required>
+    <input type="number" name="duration" placeholder="Enter duration (in days)" min="1" required>
+    <button type="submit">Add Habit</button>
+</form>
+
+       
+
+
 </body>
 </html>

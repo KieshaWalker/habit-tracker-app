@@ -43,9 +43,21 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passUserToView);
 
-app.get('/', (req, res) => {
-  console.log('landing')
-  res.render("index.ejs")
+app.get('/', async (req, res) => {
+  try {
+    if (!req.session.user) {
+      return res.render('index.ejs'); // landing page for non-logged-in users
+    }
+
+    const habits = await Habit.find({ user: req.session.user._id });
+    res.render('users/homepage.ejs', {
+      user: req.session.user,
+      habits
+    });
+  } catch (error) {
+    console.error(error);
+    res.redirect('/login');
+  }
 });
 
 

@@ -12,6 +12,7 @@ router.get('/signup', userController.signingup);
 router.get('/login', userController.login);
 router.post('/signup', userController.signup);
 router.post('/login', userController.loggedIn);
+router.get('/', userController.signOut);
 
 
 module.exports = router;

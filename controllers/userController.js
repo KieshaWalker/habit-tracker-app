@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
+const today = new Date();
+const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
 
 const User = require('../models/User');
 const Habit = require('../models/Habit');
@@ -68,7 +72,8 @@ const loggedIn = async (req, res) => {
     // Avoid storing the password, even in hashed format, in the session
     // If there is other data you want to save to `req.session.user`, do so here!
     req.session.user = { username: userInDatabase.username, _id: userInDatabase._id };
-    return res.render('users/homepage.ejs', { user: req.session.user });// had to pass my session here in order for the next page to access it
+    const habits = await Habit.find({ user: userInDatabase._id, archived: false, createdAt: { $gte: startOfDay, $lt: endOfDay } });// had to go back and add this to make it accessible to the homepage
+    return res.render('users/homepage.ejs', { user: req.session.user, habits, });
 
   } catch (error) {
     console.log(error);
@@ -77,13 +82,22 @@ const loggedIn = async (req, res) => {
 };
 
 
-
+const signOut = (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.log('Error signing out:', err);
+            return res.redirect('/');
+        }
+        res.redirect('/');
+    });
+};
 
 module.exports = {
     signingup,
     login,
     signup,
     loggedIn,
+    signOut
 
 };
 

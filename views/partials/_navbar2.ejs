@@ -1,0 +1,9 @@
+<nav>
+  <% if (user && user.username) { %>
+    <a href="javascript:history.back()">Back to dashboard</a>
+    <a href="/users">Sign Out</a>
+  <% } else { %>
+    <a href="/users/login">Sign In</a>
+    <a href="/users/sign-up">Sign Up</a>
+  <% } %>
+</nav>
