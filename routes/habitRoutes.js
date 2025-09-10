@@ -19,5 +19,6 @@ router.post('/:id/complete', habitController.completeHabit);
 router.get('/:id/edit', habitController.showEditHabit);
 router.put('/:id', habitController.updateHabit);
 
+router.delete('/:id', habitController.deleteHabit);
 
 module.exports = router;

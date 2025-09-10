@@ -105,36 +105,58 @@ const showEditHabit =  async (req, res) => {
 };
 
 const updateHabit = async (req, res) => {
-     try {
+    console.log('Updating habit:', req.params.id, 'with data:', req.body);
+    try {
         const user = req.session.user;
         if (!user) return res.status(401).send('User is not logged in');
+        const habit = await Habit.findOne({ _id: req.params.id, user: user._id });
+        if (!habit) return res.status(404).send('Not found');
 
-        const { id } = req.params;
-        const habit = await Habit.findOne({ _id: id, user: user._id });
-        if (!habit) return res.status(404).send('Habit not found');
-
-        const fields = ['title', 'description', 'frequency', 'targetCount', 'duration', 'archived'];
-        fields.forEach(f => {
-            if (req.body[f] !== undefined && req.body[f] !== '') {
-                habit[f] = req.body[f];
-            }
-        });
+        habit.title = req.body.title;
+        habit.description = req.body.description;
+        habit.frequency = req.body.frequency;
+        habit.targetCount = req.body.targetCount;
+        habit.duration = req.body.duration;
 
         await habit.save();
 
-        // After update load habits and redirect or render:
+        console.log('Habit updated successfully:', habit);
+        // Load updated list
         const habits = await Habit.find({ user: user._id }).lean();
-        return  res.redirect('/users/homepage', { habits });
+        return res.render('users/homepage.ejs', {
+            user: req.session.user,
+            habits,
+            updatedHabit: habit
+        });
+
     } catch (error) {
         console.error('Error updating habit:', error);
-        return res.status(500).send('Internal Server Error');
+        res.status(500).send('Internal Server Error');
     }
 };
+
+const deleteHabit = async (req, res) => {
+    try {
+        const user = req.session.user;
+        if (!user) return res.status(401).send('User is not logged in');
+        const habit = await Habit.findOneAndDelete({ _id: req.params.id, user: user._id });
+        if (!habit) return res.status(404).send('Habit not found');
+
+        const habits = await Habit.find({ user: user._id }).lean();
+        res.render('users/homepage.ejs', { user, habits });
+    } catch (error) {
+        console.error('Error deleting habit:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
 
 module.exports = {
     showAddHabit,
     createHabit,
     completeHabit,
     updateHabit,
-    showEditHabit
+    showEditHabit,
+    deleteHabit
 };
