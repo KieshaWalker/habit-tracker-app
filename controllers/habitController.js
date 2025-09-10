@@ -94,13 +94,18 @@ const completeHabit = async (req, res) => {
 };
 
 const showEditHabit =  async (req, res) => {
-  const habit = await Habit.findOne({ _id: req.params.id, user: req.session.user._id });
+    console.log('Showing edit form for habit:', req.params.id);
+    const user = req.session.user;
+  if (!user) return res.status(401).send('User is not logged in');
+
+  const habit = await Habit.findOne({ _id: req.params.id, user: user._id });
   if (!habit) return res.status(404).send('Not found');
-  res.render('/edit.ejs', { habit });
+
+  res.render('habits/edit.ejs', { habit });
 };
 
 const updateHabit = async (req, res) => {
-    try {
+     try {
         const user = req.session.user;
         if (!user) return res.status(401).send('User is not logged in');
 
@@ -116,10 +121,10 @@ const updateHabit = async (req, res) => {
         });
 
         await habit.save();
-        return res.redirect('/', {
-            user: req.session.user,
-            habit
-        });
+
+        // After update load habits and redirect or render:
+        const habits = await Habit.find({ user: user._id }).lean();
+        return  res.redirect('/users/homepage', { habits });
     } catch (error) {
         console.error('Error updating habit:', error);
         return res.status(500).send('Internal Server Error');

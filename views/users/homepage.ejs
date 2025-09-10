@@ -31,14 +31,14 @@
           isComplete = lastDate.toDateString() === today.toDateString();
         }
       %>   <li class="<%= isComplete ? 'complete' : 'incomplete' %>">
-          <a href="/habits<%= habit._id %>/edit">
+          <a href="/habits/<%= habit._id %>/edit">
             <strong><%= habit.title %></strong> - <%= habit.description %>
           </a>
 
           <% if (isComplete) { %>
             <span>(Completed today)</span>
           <% } else { %>
-            <form action="/habits<%= habit._id %>/complete" method="POST" style="display:inline;">
+            <form action="/habits/<%= habit._id %>/complete" method="POST" style="display:inline;">
               <button type="submit">Mark Complete</button>
             </form>
           <% } %>
