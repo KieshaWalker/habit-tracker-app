@@ -30,8 +30,7 @@
           const today = new Date();
           isComplete = lastDate.toDateString() === today.toDateString();
         }
-      %>
-        <li class="<%= isComplete ? 'complete' : 'incomplete' %>">
+      %>   <li class="<%= isComplete ? 'complete' : 'incomplete' %>">
           <a href="/habits<%= habit._id %>/edit">
             <strong><%= habit.title %></strong> - <%= habit.description %>
           </a>
@@ -50,7 +49,6 @@
     <p>No habits found for today. Let's create some!</p>
   <% } %>
 </div>
-
 <p2>Keep up the great work!</p2>
 
 </body>

@@ -10,18 +10,18 @@ const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()
 const User = require('../models/User');
 const Habit = require('../models/Habit');
 
-const showAddHabit = (req, res) => {
+const showAddHabit = async (req, res) => {
     const user = req.session.user;
     if (!user) return res.status(401).send('User is not logged in');
-    res.render('habits/index.ejs', { user });
-    const { id } = req.params;
+    const habits = await Habit.find({ user: user._id }).lean();
+
+    res.render('habits/index.ejs', { user, habits });
 
 };
 
 
 const createHabit = async (req, res) => {
     try {
-
         const user = req.session.user;
         if (!user) return res.status(401).send('User is not logged in');
 
@@ -34,12 +34,17 @@ const createHabit = async (req, res) => {
             user: user._id,
             createdAt: Date.now(),
         });
+
         await habit.save();
+
         console.log('Habit created successfully:', habit);
+// Load updated list
+        const habits = await Habit.find({ user: user._id }).lean();
         return res.render('users/homepage.ejs', {
             user: req.session.user,
-            habit
+            habits
         });
+
     } catch (error) {
         console.error('Error creating habit:', error);
         res.status(500).send('Internal Server Error');
@@ -78,15 +83,22 @@ const completeHabit = async (req, res) => {
             default:
                 return true;
         }
-        }); // Close filter
+        });
 
-        res.render('users/homepage.ejs', { user: req.session.user, habits: filteredHabits });
+        res.render('users/homepage.ejs', { user: req.session.user, habit: filteredHabits });
 
     } catch (error) {
         console.error('Error completing habit:', error);
         res.status(500).send('Internal Server Error');
     }
 };
+
+const showEditHabit =  async (req, res) => {
+  const habit = await Habit.findOne({ _id: req.params.id, user: req.session.user._id });
+  if (!habit) return res.status(404).send('Not found');
+  res.render('/edit.ejs', { habit });
+};
+
 const updateHabit = async (req, res) => {
     try {
         const user = req.session.user;
@@ -118,5 +130,6 @@ module.exports = {
     showAddHabit,
     createHabit,
     completeHabit,
-    updateHabit
+    updateHabit,
+    showEditHabit
 };
