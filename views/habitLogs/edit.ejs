@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+    <link rel="stylesheet" href="/habit.css">
+</head>
+<body>
+    <%- include('../partials/_navbar2.ejs') %>
+
+<form action="/habits/<%= habit._id %>?_method=PUT" method="POST">
+  <input name="title" value="<%= habit.title %>">
+  <input name="description" value="<%= habit.description %>">
+  <select name="frequency">
+    <option value="daily" <%= habit.frequency==='daily'?'selected':'' %>>Daily</option>
+    <option value="weekly" <%= habit.frequency==='weekly'?'selected':'' %>>Weekly</option>
+    <option value="monthly" <%= habit.frequency==='monthly'?'selected':'' %>>Monthly</option>
+  </select>
+  <input type="number" name="targetCount" value="<%= habit.targetCount %>">
+  <input type="number" name="duration" value="<%= habit.duration %>">
+  <button type="submit">Update Habit</button>
+</form>
+
+       
+
+
+</body>
+</html>

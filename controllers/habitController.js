@@ -87,9 +87,36 @@ const completeHabit = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+const updateHabit = async (req, res) => {
+    try {
+        const user = req.session.user;
+        if (!user) return res.status(401).send('User is not logged in');
+
+        const { id } = req.params;
+        const habit = await Habit.findOne({ _id: id, user: user._id });
+        if (!habit) return res.status(404).send('Habit not found');
+
+        const fields = ['title', 'description', 'frequency', 'targetCount', 'duration', 'archived'];
+        fields.forEach(f => {
+            if (req.body[f] !== undefined && req.body[f] !== '') {
+                habit[f] = req.body[f];
+            }
+        });
+
+        await habit.save();
+        return res.redirect('/', {
+            user: req.session.user,
+            habit
+        });
+    } catch (error) {
+        console.error('Error updating habit:', error);
+        return res.status(500).send('Internal Server Error');
+    }
+};
 
 module.exports = {
     showAddHabit,
     createHabit,
-    completeHabit
+    completeHabit,
+    updateHabit
 };

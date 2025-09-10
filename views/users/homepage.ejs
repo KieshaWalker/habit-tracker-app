@@ -16,17 +16,40 @@
 <p1>Your personalized habit tracking dashboard is ready.</p1>
 
 <h2>Today's Habits:</h2>
-    <div id="habit-list">
-      <% if (habits && habits.length > 0) { %>
-      <ul>
-        <% habits.forEach(habit => { %>
-          <li><%= habit.title %> - <%= habit.description %></li>
-        <% }); %>
-      </ul>
-      <% } else { %>
-        <p>No habits found for today. Let's create some!</p>
-      <% } %>
-    </div>
+   <div id="habit-list">
+  <% if (habits && habits.length) { %>
+    <ul>
+      <% habits.forEach(habit => {
+        const lastComplete = (habit.habitLog || [])
+          .filter(log => log.status === 'completed')
+          .sort((a,b)=> new Date(b.date) - new Date(a.date))[0];
+
+        let isComplete = false;
+        if (lastComplete) {
+          const lastDate = new Date(lastComplete.date);
+          const today = new Date();
+          isComplete = lastDate.toDateString() === today.toDateString();
+        }
+      %>
+        <li class="<%= isComplete ? 'complete' : 'incomplete' %>">
+          <a href="/habits<%= habit._id %>/edit">
+            <strong><%= habit.title %></strong> - <%= habit.description %>
+          </a>
+
+          <% if (isComplete) { %>
+            <span>(Completed today)</span>
+          <% } else { %>
+            <form action="/habits<%= habit._id %>/complete" method="POST" style="display:inline;">
+              <button type="submit">Mark Complete</button>
+            </form>
+          <% } %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No habits found for today. Let's create some!</p>
+  <% } %>
+</div>
 
 <p2>Keep up the great work!</p2>
 
