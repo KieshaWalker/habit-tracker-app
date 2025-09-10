@@ -37,7 +37,7 @@ const signup = async (req, res) => {
     // All ready to create the new user!
     await User.create(req.body);
   
-    res.redirect('/users/login');
+    res.redirect('/users');
   } catch (error) {
     console.log(error);
     res.render('users/homepage.ejs');
@@ -67,12 +67,8 @@ const loggedIn = async (req, res) => {
     // There is a user AND they had the correct password. Time to make a session!
     // Avoid storing the password, even in hashed format, in the session
     // If there is other data you want to save to `req.session.user`, do so here!
-    req.session.user = {
-      username: userInDatabase.username,
-      _id: userInDatabase._id
-    }
-
-res.render('users/homepage.ejs', { username: userInDatabase.username });
+    req.session.user = { username: userInDatabase.username, _id: userInDatabase._id };
+    return res.render('users/homepage.ejs', { user: req.session.user });// had to pass my session here in order for the next page to access it
 
   } catch (error) {
     console.log(error);

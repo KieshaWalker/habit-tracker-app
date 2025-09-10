@@ -10,7 +10,6 @@ const userController = require('../controllers/userController');
 const habitController = require('../controllers/habitController');
 const logController = require('../controllers/logController');
 
-
 router.get('/', habitController.showAddHabit);
 
 

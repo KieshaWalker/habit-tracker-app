@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="/homepage.css">
 </head>
 <body>
-<%- include('../partials/_navbar.ejs', { username: username }) %>
+<%- include('../partials/_navbar.ejs') %>
 
-
-<h1>Welcome <%= username %>!</h1>
+<% if (user && user.username) { %>
+  <h1>Welcome <%= user.username %>!</h1>
+<% } %>
 
 <p1>Your personalized habit tracking dashboard is ready.</p1>
 

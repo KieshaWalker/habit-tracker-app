@@ -1,10 +1,10 @@
 <nav>
-  <% if(user && user.username) { %>
-  <a href="/users/homepage/<%= user.username %>/habits">Your Habits</a>
-  <a href="/users">Sign Out</a>
-  <a href="/habits">Add a Habit</a>
-<% } else { %>
-  <a href="/users/login">Sign In</a>
-  <a href="/users/sign-up">Sign Up</a>
-<% } %>
+  <% if (user && user.username) { %>
+    <a href="/habits">Your Habits</a>
+    <a href="/habits">Add a Habit</a>
+    <a href="/users">Sign Out</a>
+  <% } else { %>
+    <a href="/users/login">Sign In</a>
+    <a href="/users/sign-up">Sign Up</a>
+  <% } %>
 </nav>

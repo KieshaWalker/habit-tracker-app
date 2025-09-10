@@ -28,7 +28,7 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', err => {
   console.error('MongoDB connection error:', err);
 });
-
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 app.use(morgan('dev'));
@@ -39,8 +39,10 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passUserToView);
+
 app.get('/', (req, res) => {
   console.log('landing')
   res.render("index.ejs")
@@ -49,11 +51,11 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoutes);
 app.use(isSignedIn);
+
 app.use('/habits', habitRoutes);
+
 app.use('/logs', logRoutes);
 app.use('/users', userRoutes);
-
-
 
 
 

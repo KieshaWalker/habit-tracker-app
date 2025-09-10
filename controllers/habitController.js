@@ -9,6 +9,8 @@ const showAddHabit = (req, res) => {
     const user = req.session.user;
     if (!user) return res.status(401).send('User is not logged in');
     res.render('habits/index.ejs', { user });
+    const { id } = req.params;
+
 };
 
 const createHabit = async (req, res) => {
