@@ -61,31 +61,31 @@ const completeHabit = async (req, res) => {
         habit.habitLog.push({ date: new Date(), status: 'completed' });
         await habit.save();
 
-        const habits = await Habit.find({ user: req.session.user._id });
+        const habits = await Habit.find({ user: req.session.user._id }).lean();
 
         const now = new Date();
         const filteredHabits = habits.filter(habit => {
             const lastComplete = habit.habitLog
-            .filter(log => log.status === 'completed')
-            .sort((a, b) => b.date - a.date)[0];
+                .filter(log => log.status === 'completed')
+                .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
 
-             if(!lastComplete) return true;
+            if (!lastComplete) return true;
 
-        switch (habit.frequency) {
-            case 'daily':
-                return lastComplete.date.toDateString() !== now.toDateString();
-            case 'weekly':
-                const weekStart = new Date(now);
-                weekStart.setDate(weekStart.getDate() - weekStart.getDay());
-                return lastComplete.date < weekStart;
-            case 'monthly':
-                return lastComplete.date < new Date(now.getFullYear(), now.getMonth(), 1);
-            default:
-                return true;
-        }
+            switch (habit.frequency) {
+                case 'daily':
+                    return lastComplete.date.toString() !== now.toDateString();
+                case 'weekly':
+                    const weekStart = new Date(now);
+                    weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+                    return new Date(lastComplete.date) < weekStart;
+                case 'monthly':
+                    return new Date(lastComplete.date) < new Date(now.getFullYear(), now.getMonth(), 1);
+                default:
+                    return true;
+            }
         });
 
-        res.render('users/homepage.ejs', { user: req.session.user, habit: filteredHabits });
+        res.render('users/homepage.ejs', { user: req.session.user, habits: filteredHabits });
 
     } catch (error) {
         console.error('Error completing habit:', error);
