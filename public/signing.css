@@ -1,5 +1,6 @@
     body {
-        font-family: Arial, sans-serif;
+        background-color: rgb(79, 53, 40);
+        color: white;   
         text-align: center;
         font-size: 20px;
         display: flex;
@@ -7,8 +8,22 @@
         justify-content: center;
         height: 100vh;
     }   
-p {
-    font-size: 25px;
-    color: #ca2020;
-    
+
+    .carattere-regular {
+  font-family: "Carattere", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+a {
+    color: white;
+    text-decoration: none;
+
+}
+
+div {
+    margin: 12px 0;
+    background-color: rgba(0, 0, 0, 0.596);
+    height: 50px;
+    border-radius: 10px;
+    width: 300px;
 }
