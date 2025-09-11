@@ -18,8 +18,12 @@ html {
   scroll-behavior:smooth;
 }    
 
+nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 1rem;
 
-
+    }
 
 #habit-list li {
   border:1px solid var(--border);
