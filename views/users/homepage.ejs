@@ -46,7 +46,7 @@
             <span>(Completed today)</span>
           <% } else { %>
             <form action="/habits/<%= habit._id %>/complete" method="POST" style="display:inline;">
-              <button type="submit">Mark Complete</button>
+              <button class="submit">Mark Complete</button>
             </form>
           <% } %>
           <a href="/logs/<%= habit._id %>">View Logs</a>

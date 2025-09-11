@@ -11,12 +11,40 @@ body {
   padding:2rem 1rem;
  background-color: rgb(79, 53, 40);
  color: white;   
+text-shadow: 1rem 1rem 1rem rgb(0, 0, 0); 
 }
 
 html {
   box-sizing:border-box;
   scroll-behavior:smooth;
 }    
+
+p a {
+    color: white;
+ text-decoration: none;
+
+}
+
+table {
+    margin-top: 1rem;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.596);
+    color: white;
+}
+
+
+.submit {
+    
+    background-color:transparent;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    cursor: pointer;
+}
+
 
 nav a {
         color: white;
@@ -25,21 +53,53 @@ nav a {
 
     }
 
+    h1 {
+    font-weight: 400; 
+    font-style: normal; 
+    font-size: 4rem; 
+    margin: 0rem;
+    text-shadow: 1rem 1rem 1rem rgb(0, 0, 0); 
+    }
+
+    p {
+    font-size: 1rem;
+    margin: 0rem;
+    font-style: italic;
+
+    }
+
+h2 {
+    font-size: 2rem; 
+    margin: 0rem;
+
+  }
+
+
+ul {
+  list-style-type: none;
+  padding:0;
+  margin-left: 1rem;
+  display:grid;
+ grid-template-columns: 1fr 1fr;
+   gap:1rem;
+
+}
+
+
 #habit-list li {
-  border:1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border:1px solid white;
+  border-radius: 5rem;
   padding:1rem 1.1rem 1.15rem;
-  display:flex;
   justify-content: center;
   gap:.7rem;
-  isolation:isolate;
-  width: 50rem;
-
+  isolation: isolate;
+  width: auto;
+  margin-bottom: .5rem;
   transition: transform .25s ease, box-shadow .25s ease, border-color .35s;
 }
 #habit-list li:hover { transform: 
     translateY(-4px); 
-    box-shadow: var(--shadow-md); 
+    box-shadow: black 0 8px 24px -4px; 
   }
 
 #habit-list a {
@@ -56,18 +116,9 @@ nav a {
 .incomplete strong { color:#fff; }
 
 /* Buttons */
-.btn {
-  font-family: inherit;
-  color:#fff;
-  border:none;
-  padding: .55rem 1.05rem;
-  border-radius: var(--radius-md);
-  cursor:pointer;
-  font-size:.85rem;
-  letter-spacing:.5px;
-  font-weight:600;
-  box-shadow: 0 4px 14px -4px rgba(37,99,235,0.6);
-}
+
+
+
 
 
 
