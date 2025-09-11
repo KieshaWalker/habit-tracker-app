@@ -2,7 +2,7 @@
 
 A full-stack habit tracking application that lets users create, manage, and complete recurring habits while visualizing progress over time. Users can sign up, log in, create habits with frequency and duration goals, mark them complete, and view historical completion logs with a progress bar for each habit.
 
-INSERT APP LOGO HERE
+![alt text](image.png)
 
 
 ## Why I Built It
@@ -11,11 +11,10 @@ I wanted a focused tool for building consistent routines—something simpler tha
 
 ## Live App & Planning
 
-- Deployed App:
-- Planning Docs:
-  - User Stories:
-  - Wireframes: 
-  - ERD / Data Model: 
+- Deployed App: https://dailyhabitracker-e2247b7e6739.herokuapp.com/
+- Planning Docs: https://excalidraw.com/#json=bvW4VPLm1lSG2UbyYViDE,RBNfqC0jcYiC13a_jiue9Q
+  - this includes Wireframes, ERD / Data Model:
+  - user stories
 
 ## Technologies Used
 
